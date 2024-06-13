@@ -8,6 +8,13 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+// Handle logout
+if (isset($_POST['logout'])) {
+    session_destroy();
+    header("Location: index.php");
+    exit;
+}
+
 function getProjects($conn) {
     $stmt = $conn->query("SELECT * FROM projecten");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -53,7 +60,13 @@ if (isset($_GET['verwijderen']) && isset($_GET['id'])) {
 
 <body class="bg-gray-100 font-sans">
     <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-6 text-gray-800">Beheerpagina - Projecten</h1>
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">Beheerpagina - Projecten</h1>
+            <form method="post">
+                <a href="Index.php" class="bg-black text-white py-2 px-4 rounded-md shadow-sm hover:bg-black transition duration-300">Home</a>
+                <button type="submit" name="logout" class="bg-red-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-red-600 transition duration-300">Uitloggen</button>
+            </form>
+        </div>
 
         <div class="mb-8">
             <h2 class="text-xl font-bold mb-2 text-gray-800">Nieuw project toevoegen</h2>
