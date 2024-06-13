@@ -1,5 +1,12 @@
 <?php
-$conn = require_once('database.php');
+session_start();
+require_once('database.php');
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: projecten-beheren.php");
+    exit;
+}
 
 function getProjects($conn) {
     $stmt = $conn->query("SELECT * FROM projecten");
