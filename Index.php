@@ -35,11 +35,12 @@
             <div class="flex flex-col lg:flex-row justify-between items-center">
                 <div class="lg:w-1/2">
                     <h1 class="text-4xl font-bold mb-4 mt-8 lg:mt-0">Welkom bij Mijn Portfolio</h1>
+                    <p class="text-xl mb-10">Hi mijn naam is Paris Angelopoulos ben een software developer gespecialiseerd in web development. Zit momenteel op het Technova in Ede en ben mijn best aan het doen om mijn diploma te halen.</p>
                     <p class="text-xl mb-10">Ontdek mijn projecten en neem contact op voor meer informatie.</p>
                     <a href="projecten.php" class="bg-gray-800 text-white border py-4 px-5 border-gray-800 rounded-md hover:bg-white hover:text-black mr-4">Bekijk mijn projecten</a>
                     <a href="contact.php" class="bg-white text-gray-800 border py-4 px-5 border-gray-800 rounded-md hover:bg-gray-800 hover:text-white">Neem contact op</a>
                 </div>
-                <div class="lg:w-1/2 mt-6 lg:mt-0">
+                <div class="lg:w-1/2 mt-6 lg:mt-10">
                     <div class="shadow-lg rounded-full">
                         <img src="fotos/Paris-V2.png" alt="Welkom bij Mijn Portfolio">
                     </div>
