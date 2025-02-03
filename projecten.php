@@ -8,108 +8,117 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<body class="bg-gray-100 flex flex-col min-h-screen">
-    <nav class="bg-gray-800 text-white py-4 sticky top-0">
-        <div class="container mx-auto flex items-center justify-between">
+<body class="flex flex-col min-h-screen bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-gray-800 text-white py-4 sticky top-0 z-10">
+        <div class="container mx-auto flex items-center justify-between px-4">
             <a class="text-2xl font-bold" href="index.php">Paris Angelopoulos</a>
-            <button class="block lg:hidden focus:outline-none">
+            <button id="menu-toggle" class="block lg:hidden focus:outline-none">
                 <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
-            <div class="hidden lg:flex">
-                <ul class="flex space-x-4">
-                    <li class="nav-item">
-                        <a class="nav-link" href="projecten.php">Projecten</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.php">Contact</a>
-                    </li>
+            <div id="menu" class="hidden lg:flex flex-col lg:flex-row absolute lg:relative top-full left-0 w-full lg:w-auto bg-gray-800 lg:bg-transparent p-4 lg:p-0 shadow-lg lg:shadow-none">
+                <ul class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4">
+                    <li><a class="block text-white py-2 px-4 hover:bg-gray-700 rounded" href="projecten.php">Projecten</a></li>
+                    <li><a class="block text-white py-2 px-4 hover:bg-gray-700 rounded" href="cv.php">CV</a></li>
+                    <li><a class="block text-white py-2 px-4 hover:bg-gray-700 rounded" href="contact.php">Contact</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <main class="container mx-auto py-8 flex-grow">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <?php
-            $conn = require_once('database.php');
+    <main class="container mx-auto py-8 flex-grow px-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <?php
+// Functie om de beschrijving te truncaten
+function truncateText($text, $wordLimit = 14) {
+    $words = explode(' ', $text);
+    if (count($words) > $wordLimit) {
+        $words = array_slice($words, 0, $wordLimit);
+        return implode(' ', $words) . '...';
+    }
+    return $text;
+}
 
-            $stmt = $conn->query("SELECT * FROM projecten");
+// Je database query en project loop
+$conn = require_once('database.php');
+$stmt = $conn->query("SELECT * FROM projecten");
 
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            ?>
-                <div class="card shadow-lg bg-white rounded-lg overflow-hidden cursor-pointer"
-                     data-project-name="<?= htmlspecialchars($row["project_naam"]) ?>"
-                     data-project-description="<?= htmlspecialchars($row["beschrijving"]) ?>">
-                    <img src="data:image/jpeg;base64,<?= base64_encode($row['image']) ?>" class="w-full h-40 object-cover" alt="Project Afbeelding">
-                    <div class="p-4">
-                        <h3 class="text-lg font-bold mb-2"><?= htmlspecialchars($row["project_naam"]) ?></h3>
-                        <p class="text-gray-700"><?= htmlspecialchars($row["beschrijving"]) ?></p>
-                    </div>
-                </div>
-            <?php
-            }
-            ?>
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+?>
+    <div class="card shadow-lg bg-white rounded-lg overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105"
+         data-project-name="<?= htmlspecialchars($row["project_naam"]) ?>"
+         data-project-description="<?= htmlspecialchars($row["beschrijving"]) ?>">
+        <img src="data:image/jpeg;base64,<?= base64_encode($row['image']) ?>" class="w-full h-40 object-cover" alt="Project Afbeelding">
+        <div class="p-4">
+            <h3 class="text-lg font-bold mb-2 text-gray-900"><?= htmlspecialchars($row["project_naam"]) ?></h3>
+            <p class="text-gray-700 text-sm md:text-base">
+                <?= htmlspecialchars(truncateText($row["beschrijving"])) ?>
+            </p>
+        </div>
+    </div>
+<?php
+}
+?>
+
         </div>
     </main>
 
-    <div class="modal fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50 hidden">
-        <div class="modal-content bg-white w-11/12 md:max-w-md rounded-lg overflow-hidden shadow-lg">
-            <button class="modal-close absolute top-0 right-0 p-4 text-gray-700 hover:text-gray-900 focus:outline-none">
-                <svg class="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M18 6L6 18M6 6l12 12"></path>
-                </svg>
-            </button>
-            <div class="modal-body p-4">
-                <h2 class="text-2xl font-bold mb-3" id="modalProjectName"></h2>
-                <p class="text-gray-700" id="modalProjectDescription"></p>
-            </div>
+    <footer class="bg-gray-800 text-white text-center py-3 mt-8">
+        <div class="container mx-auto flex justify-center items-center px-4">
+            <p class="text-sm md:text-base">&copy; <?= date("Y") ?> Mijn Portfolio. Alle rechten 
+                <a href="projecten-beheren.php" class="hover:underline">voorbehouden.</a>
+            </p>
         </div>
+    </footer>
+<!-- Modal (Pop-up) -->
+<div id="project-modal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded-lg w-11/12 sm:w-1/2 md:w-1/3">
+        <h3 id="modal-project-name" class="text-xl font-bold text-gray-900 mb-4"></h3>
+        <p id="modal-project-description" class="text-gray-700 mb-4"></p>
+        <button id="close-modal" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">Sluit</button>
     </div>
+</div>
 
-<footer class="bg-gray-800 text-white text-center py-3">
-    <div class="container mx-auto flex justify-center items-center">
-        <p>&copy; <?= date("Y") ?> Mijn Portfolio. Alle rechten 
-            <a href="projecten-beheren.php" class="hover:underline">voorbehouden.</a>
-        </p>
-    </div>
-</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const menuToggle = document.getElementById('menu-toggle');
+        const menu = document.getElementById('menu');
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const cards = document.querySelectorAll('.card');
-            const modal = document.querySelector('.modal');
-
-            cards.forEach(card => {
-                card.addEventListener('click', function () {
-                    const projectName = card.getAttribute('data-project-name');
-                    const projectDescription = card.getAttribute('data-project-description');
-
-                    const modalProjectName = document.getElementById('modalProjectName');
-                    const modalProjectDescription = document.getElementById('modalProjectDescription');
-
-                    modalProjectName.innerText = projectName;
-                    modalProjectDescription.innerText = projectDescription;
-
-                    modal.classList.remove('hidden');
-                });
-            });
-
-            const modalClose = document.querySelector('.modal-close');
-            modalClose.addEventListener('click', function () {
-                modal.classList.add('hidden');
-            });
-
-            modal.addEventListener('click', function (event) {
-                if (event.target === modal) {
-                    modal.classList.add('hidden');
-                }
-            });
+        menuToggle.addEventListener('click', function () {
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+            menu.classList.toggle('flex-col');
         });
-    </script>
-</body>
 
+        // Modal logic
+const modal = document.getElementById('project-modal');
+const closeModalButton = document.getElementById('close-modal');
+
+const cards = document.querySelectorAll('.card');
+
+cards.forEach(card => {
+    card.addEventListener('click', function () {
+        const projectName = card.getAttribute('data-project-name');
+        const projectDescription = card.getAttribute('data-project-description');
+
+        // Update modal content
+        document.getElementById('modal-project-name').textContent = projectName;
+        document.getElementById('modal-project-description').textContent = projectDescription;
+
+        // Show modal
+        modal.classList.remove('hidden');
+    });
+});
+
+// Close modal
+closeModalButton.addEventListener('click', function () {
+    modal.classList.add('hidden');
+});
+
+    });
+</script>
+
+</body>
 </html>

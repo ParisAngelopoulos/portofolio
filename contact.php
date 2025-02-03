@@ -9,22 +9,20 @@
 </head>
 
 <body class="flex flex-col min-h-screen bg-gray-100">
-    <nav class="bg-gray-800 text-white py-4">
-        <div class="container mx-auto flex items-center justify-between">
+    <!-- Navbar -->
+    <nav class="bg-gray-800 text-white py-4 sticky top-0 z-10">
+        <div class="container mx-auto flex items-center justify-between px-4">
             <a class="text-2xl font-bold" href="index.php">Paris Angelopoulos</a>
-            <button class="block lg:hidden focus:outline-none">
+            <button id="menu-toggle" class="block lg:hidden focus:outline-none">
                 <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
-            <div class="hidden lg:flex">
-                <ul class="flex space-x-4">
-                    <li class="nav-item">
-                        <a class="nav-link" href="projecten.php">Projecten</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.php">Contact</a>
-                    </li>
+            <div id="menu" class="hidden lg:flex flex-col lg:flex-row absolute lg:relative top-full left-0 w-full lg:w-auto bg-gray-800 lg:bg-transparent p-4 lg:p-0 shadow-lg lg:shadow-none">
+                <ul class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4">
+                    <li><a class="block text-white py-2 px-4 hover:bg-gray-700 rounded" href="projecten.php">Projecten</a></li>
+                    <li><a class="block text-white py-2 px-4 hover:bg-gray-700 rounded" href="cv.php">CV</a></li>
+                    <li><a class="block text-white py-2 px-4 hover:bg-gray-700 rounded" href="contact.php">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -61,6 +59,18 @@
         </div>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.getElementById('menu-toggle');
+            const menu = document.getElementById('menu');
+
+            menuToggle.addEventListener('click', function () {
+                menu.classList.toggle('hidden');
+                menu.classList.toggle('flex');
+                menu.classList.toggle('flex-col');
+            });
+        });
+    </script>
 </body>
 
 </html>
