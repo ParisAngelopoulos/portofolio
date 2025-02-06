@@ -74,7 +74,8 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     </footer>
 <!-- Modal (Pop-up) -->
 <div id="project-modal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-white p-6 rounded-lg w-11/12 sm:w-1/2 md:w-1/3">
+<div class="bg-white p-6 rounded-lg w-11/12 sm:w-3/4 md:w-2/3 lg:w-1/2 max-h-[80vh] overflow-y-auto">
+
         <h3 id="modal-project-name" class="text-xl font-bold text-gray-900 mb-4"></h3>
         <p id="modal-project-description" class="text-gray-700 mb-4"></p>
         <button id="close-modal" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">Sluit</button>
@@ -92,7 +93,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             menu.classList.toggle('flex-col');
         });
 
-        // Modal logic
+// Modal logic
 const modal = document.getElementById('project-modal');
 const closeModalButton = document.getElementById('close-modal');
 
@@ -105,8 +106,9 @@ cards.forEach(card => {
 
         // Update modal content
         document.getElementById('modal-project-name').textContent = projectName;
-        document.getElementById('modal-project-description').textContent = projectDescription;
-
+        // Gebruik nl2br om line breaks zichtbaar te maken
+        document.getElementById('modal-project-description').innerHTML = projectDescription.replace(/\n/g, '<br>');
+        
         // Show modal
         modal.classList.remove('hidden');
     });
@@ -116,6 +118,7 @@ cards.forEach(card => {
 closeModalButton.addEventListener('click', function () {
     modal.classList.add('hidden');
 });
+
 
     });
 </script>
