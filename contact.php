@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="nl">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,28 +26,38 @@
             </div>
         </div>
     </nav>
+    <?php
+if (isset($_GET['status'])) {
+    if ($_GET['status'] == 'success') {
+        echo '<div class="bg-green-500 text-white p-4 rounded mb-4">✅ Je bericht is succesvol verzonden!</div>';
+    } elseif ($_GET['status'] == 'error') {
+        echo '<div class="bg-red-500 text-white p-4 rounded mb-4">❌ Fout bij verzenden: ' . htmlspecialchars($_GET['message']) . '</div>';
+    }
+}
+?>
+
 
     <main class="container mx-auto mt-8 flex-grow">
         <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
-            <h1 class="text-2xl font-bold mb-4">Neem contact op</h1>
+            <h1 class="text-2xl font-bold mb-4">Schrijf je e-mail</h1>
             <form action="send_email.php" method="post">
-                <div class="mb-4">
-                    <input type="text" class="w-full px-4 py-3 rounded-lg border-gray-300 focus:outline-none focus:border-gray-400"
-                        id="naam" name="naam" placeholder="Naam" required>
+                <div class="mb-4 relative">
+                    <input type="text" id="naam" name="naam" class="peer w-full px-4 py-3 rounded-lg border-gray-300 focus:outline-none focus:border-gray-400" placeholder=" " required>
+                    <label for="naam" class="absolute left-4 top-3 text-gray-400 text-sm peer-placeholder-shown:top-6 peer-placeholder-shown:text-base transition-all">Naam</label>
                 </div>
-                <div class="mb-4">
-                    <input type="email" class="w-full px-4 py-3 rounded-lg border-gray-300 focus:outline-none focus:border-gray-400"
-                        id="email" name="email" placeholder="E-mailadres" required>
+                <div class="mb-4 relative">
+                    <input type="email" id="email" name="email" class="peer w-full px-4 py-3 rounded-lg border-gray-300 focus:outline-none focus:border-gray-400" placeholder=" " required>
+                    <label for="email" class="absolute left-4 top-3 text-gray-400 text-sm peer-placeholder-shown:top-6 peer-placeholder-shown:text-base transition-all">E-mailadres</label>
                 </div>
-                <div class="mb-4">
-                    <input type="text" class="w-full px-4 py-3 rounded-lg border-gray-300 focus:outline-none focus:border-gray-400"
-                        id="onderwerp" name="onderwerp" placeholder="Onderwerp" required>
+                <div class="mb-4 relative">
+                    <input type="text" id="onderwerp" name="onderwerp" class="peer w-full px-4 py-3 rounded-lg border-gray-300 focus:outline-none focus:border-gray-400" placeholder=" " required>
+                    <label for="onderwerp" class="absolute left-4 top-3 text-gray-400 text-sm peer-placeholder-shown:top-6 peer-placeholder-shown:text-base transition-all">Onderwerp</label>
                 </div>
-                <div class="mb-4">
-                    <textarea class="w-full px-4 py-3 rounded-lg border-gray-300 focus:outline-none focus:border-gray-400"
-                        id="bericht" name="bericht" rows="6" placeholder="Typ hier je bericht..." required></textarea>
+                <div class="mb-4 relative">
+                    <textarea id="bericht" name="bericht" rows="6" class="peer w-full px-4 py-3 rounded-lg border-gray-300 focus:outline-none focus:border-gray-400" placeholder=" " required></textarea>
+                    <label for="bericht" class="absolute left-4 top-3 text-gray-400 text-sm peer-placeholder-shown:top-6 peer-placeholder-shown:text-base transition-all">Typ hier je bericht...</label>
                 </div>
-                <button type="submit" class="w-full bg-gray-800 text-white py-3 rounded-lg hover:bg-gray-700 transition duration-300">Verstuur</button>
+                <button type="submit" class="w-full bg-gray-800 text-white py-3 rounded-lg hover:bg-blue-500 transition duration-300">Verstuur e-mail</button>
             </form>
         </div>
     </main>
@@ -72,5 +81,4 @@
         });
     </script>
 </body>
-
 </html>
