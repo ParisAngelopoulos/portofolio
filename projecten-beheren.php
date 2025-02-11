@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 require_once('database.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
@@ -30,56 +29,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
 
 <!DOCTYPE html>
 <html lang="nl">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projecten Beheren</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Inloggen - Projectbeheer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<body class="bg-gray-100 flex flex-col min-h-screen items-center justify-center">
-    <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
-        <h1 class="text-2xl font-bold mb-4">Projecten Beheren</h1>
+<body class="bg-gray-900 flex flex-col min-h-screen items-center justify-center text-white">
+    <div class="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold mb-6 text-center">Inloggen</h1>
+        
+        <?php if (isset($error)) : ?>
+            <div class="bg-red-500 text-white p-3 rounded mb-4 text-center">
+                <?= htmlspecialchars($error) ?>
+            </div>
+        <?php endif; ?>
+        
         <form id="loginForm" class="space-y-4" method="post" action="">
-            <?php if (isset($error)) : ?>
-                <div class="text-red-500"><?= $error ?></div>
-            <?php endif; ?>
             <div>
-                <label for="username" class="block text-sm font-medium text-gray-700">Gebruikersnaam:</label>
-                <input type="text" id="username" name="username" required class="mt-1 px-4 py-2 block w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                <label for="username" class="block text-sm font-medium">Gebruikersnaam:</label>
+                <input type="text" id="username" name="username" required 
+                       class="mt-1 w-full p-3 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500">
             </div>
             <div>
-                <label for="password" class="block text-sm font-medium text-gray-700">Wachtwoord:</label>
-                <input type="password" id="password" name="password" required autocomplete="current-password" class="mt-1 px-4 py-2 block w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                <label for="password" class="block text-sm font-medium">Wachtwoord:</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password"
+                       class="mt-1 w-full p-3 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500">
             </div>
-            <button type="submit" name="login" class="w-full bg-gray-800 text-white rounded-lg px-4 py-2 hover:bg-gray-800">Inloggen</button>
+            <button type="submit" name="login" 
+                    class="w-full bg-blue-500 p-3 rounded-lg shadow hover:bg-blue-600 transition duration-300">
+                Inloggen
+            </button>
         </form>
     </div>
 </body>
-
 </html>
-
-
-<?php
-
-// require_once('database.php');
-
-
-// $username = 'testuser';
-// $password = 'examplepassword';
-
-
-// $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-// $sql = "INSERT INTO users (username, password) VALUES (:username, :password)";
-// $stmt = $conn->prepare($sql);
-// $stmt->bindParam(':username', $username);
-// $stmt->bindParam(':password', $hashedPassword);
-
-// if ($stmt->execute()) {
-//     echo "User successfully created with hashed password.";
-// } else {
-//     echo "Error creating user.";
-// }
-?>
