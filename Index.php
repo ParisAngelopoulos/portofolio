@@ -49,8 +49,10 @@
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             ?>
                  <div class="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 cursor-pointer"
-                    data-project-name="<?= htmlspecialchars($row["project_naam"]) ?>"
-                    data-project-description="<?= htmlspecialchars($row["beschrijving"]) ?>">
+    data-project-id="<?= $row['id'] ?>"
+    data-project-name="<?= htmlspecialchars($row["project_naam"]) ?>"
+    data-project-description="<?= htmlspecialchars($row["beschrijving"]) ?>">
+
                     <img src="data:image/jpeg;base64,<?= base64_encode($row['image']) ?>" class="w-full h-40 object-cover rounded-lg" alt="Project afbeelding">
                     <div class="p-4">
                     <h3 class="text-xl font-semibold text-white mt-4"> <?= htmlspecialchars($row['project_naam']) ?> </h3>
@@ -71,16 +73,17 @@
             <button id="close-modal" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">Sluit</button>
         </div>
     </div>
+    <section id="cv" class="mb-10">
     <main class="container mx-auto mt-12 flex-grow px-6">
     <div class="max-w-4xl mx-auto bg-white p-10 rounded-2xl shadow-2xl border border-gray-200">
         <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">Over Mij</h1>
         
-        <section id="cv" class="mb-10">
+        
             <h2 class="text-2xl font-semibold text-gray-700 mb-4 border-l-4 border-blue-500 pl-3">Wat Ik Doe</h2>
             <p class="text-lg text-gray-600 leading-relaxed">Hallo! Mijn naam is Paris Angelopoulos en ik ben een software developer met een passie voor web development. Momenteel studeer ik aan het Technova College in Ede en werk ik hard aan het behalen van mijn diploma. Ik ben altijd bezig met het verbeteren van mijn vaardigheden en zoek voortdurend naar nieuwe uitdagingen.</p>
-        </section>
+       
         
-        <section class="mb-10">
+        
             <h2 class="text-2xl font-semibold text-gray-700 mb-4 border-l-4 border-blue-500 pl-3">Mijn Kennis en Vaardigheden</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div class="bg-gray-100 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
@@ -116,9 +119,9 @@
                     </ul>
                 </div>
             </div>
-        </section>
+        
 
-        <section>
+        
             <h2 class="text-2xl font-semibold text-gray-700 mb-4 border-l-4 border-blue-500 pl-3">Huidige Projecten</h2>
             <p class="text-lg text-gray-600 leading-relaxed">Momenteel werk ik aan verschillende projecten waarbij ik mijn vaardigheden in zowel frontend als backend development toepas. Deze projecten helpen me om mijn kennis te verdiepen en uit te breiden, en ik ben altijd op zoek naar nieuwe mogelijkheden om mijn portfolio uit te breiden.</p>
         </section>
@@ -139,7 +142,7 @@
     <!-- Footer -->
     <footer class="bg-gray-800 text-white text-center py-4 mt-8">
         <div class="container mx-auto">
-            <p>&copy; <script>document.write(new Date().getFullYear())</script> Mijn Portfolio. Alle rechten voorbehouden.</p>
+            <p>&copy; <script>document.write(new Date().getFullYear())</script> Mijn Portfolio. Alle rechten <a href="projecten-beheren.php" class="hover:underline">voorbehouden.</a></p>
         </div>
     </footer>
 
@@ -171,6 +174,17 @@
                 modal.classList.add('hidden');
             });
         });
+        document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".bg-gray-800").forEach(function(project) {
+        project.addEventListener("click", function() {
+            let projectId = this.getAttribute("data-project-id");
+            if (projectId) {
+                window.location.href = "project.php?id=" + projectId;
+            }
+        });
+    });
+});
+        
     </script>
 </body>
 
